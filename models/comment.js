@@ -30,6 +30,8 @@ Comment.init({
       id: 'id'
     },
   },
+},
+{
   sequelize,
   timestamps: false,
   freezeTableName: true,
