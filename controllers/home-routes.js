@@ -24,6 +24,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+//Get login Routes
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');
@@ -31,6 +32,17 @@ router.get('/login', (req, res) => {
   }
 
   res.render('login');
+});
+
+
+//Get signup Routes
+router.get('/signup', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
+
+  res.render('signup');
 });
 
 // // get single post
