@@ -2,22 +2,22 @@ const router = require('express').Router();
 const { User } = require('../../models');
 
 router.post('/', async (req, res) => {
-  try {
+  // try {
     const newUser = await User.create(req.body);
-
+     
     req.session.save(() => {
       req.session.user_id = newUser.id;
       req.session.loggedIn = true;
 
       res.status(200).json(newUser);
     });
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  // } catch (err) {
+  //   res.status(500).json(err);
+  // }
 });
 
 router.post('/login', async (req, res) => {
-  try {
+  // try {
     const user = await User.findOne({
       where: {
         username: req.body.username,
@@ -37,15 +37,15 @@ router.post('/login', async (req, res) => {
     }
 
     req.session.save(() => {
-      req.session.userId = user.id;
+      req.session.user_id = user.id;
       req.session.username = user.username;
       req.session.loggedIn = true;
-
+ 
       res.json({ user, message: 'You are now logged in!' });
     });
-  } catch (err) {
-    res.status(400).json({ message: 'No user account found!' });
-  }
+  // } catch (err) {
+  //   res.status(400).json({ message: 'No user account found!' });
+  // }
 });
 
 router.post('/logout', (req, res) => {

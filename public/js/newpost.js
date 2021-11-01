@@ -1,10 +1,14 @@
+ 
 const newpostFormHandler = async function(event) {
-    event.prevenDefault();
-
+    event.preventDefault();
+  
     const title = document.querySelector('input[name="post-title"]');
     const content = document.querySelector('textarea[name="post-body"]');
-
-    const response = await fetch('/api/user/login', {
+console.log({
+    title: title.value,
+    content: content.value,
+})
+    const response = await fetch('/api/post', {
         method: 'POST',
         body: JSON.stringify({
             title: title.value,
@@ -13,11 +17,11 @@ const newpostFormHandler = async function(event) {
         headers: {'Content-Type':'application/json'},
     });
 
-    if(response.ok) {
-        document.location.replace('/dashboard');
-    } else {
-        alert('Failed to login');
-    }
+    // if(response.ok) {
+    //     document.location.replace('/dashboard');
+    // } else {
+    //     alert('Failed to login');
+    // }
 };
 
 document

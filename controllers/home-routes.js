@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
 
     const posts = postData.map((post) => post.get({ plain: true })
     );
-    res.render('allposts', {
+    res.render('allpostsdashboard', {
       posts,
     });
   } catch (err) {
@@ -24,7 +24,11 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+
 //Get login Routes
+
+
 router.get('/login', (req, res) => {
   if (req.session.loggedIn) {
     res.redirect('/');
@@ -45,51 +49,43 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-// // get single post
-// router.get('/post/:id', async (req, res) => {
-//     try {
-//       const postData = await Post.findByPk(req.params.id, {
-//         include: [
-//           User,
-//           {
-//             model: Comment,
-//             include: [User],
-//           },
-//         ],
-//       });
+// get single post
+router.get('/post/:id', async (req, res) => {
+    try {
+      const postData = await Post.findByPk(req.params.id, {
+        include: [
+          {
+            model: User,
+            attributes: ['username'],
+          },
+          {
+            model: Comment,
+            attributes: ['body', "user_id"],
+          },
+        ],
+      });
   
-//       if (postData) {
-//         const post = postData.get({ plain: true });
+      if (postData) {
+        const post = postData.get({ plain: true });
   
-//         res.render('singlepost', { post });
-//       } else {
-//         res.status(404).end();
-//       }
-//     } catch (err) {
-//       res.status(500).json(err);
-//     }
-//   });
+        res.render('singlepost', { post });
+      } else {
+        res.status(404).end();
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
 
-// // GET one painting
-// router.get('/painting/:id', async (req, res) => {
-//   try {
-//     const dbPaintingData = await Painting.findByPk(req.params.id);
 
-//     const painting = dbPaintingData.get({ plain: true });
-//     res.render('painting', { painting, loggedIn: req.session.loggedIn });
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json(err);
-//   }
-// });
 
-// // Login route
-// router.get('/login', (req, res) => {
-//   if (req.session.loggedIn) {
-//     res.redirect('/');
-//     return;
-//   }
-//   res.render('login');
-// });
+// Login route
+router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/');
+    return;
+  }
+  res.render('login');
+});
 
 module.exports = router;
