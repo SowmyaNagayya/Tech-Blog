@@ -95,6 +95,45 @@ router.get('/post/:id', async (req, res) => {
       res.status(500).json(err);
     }
   });
+
+  //Comments
+  router.get('/comment/:id',  async (req, res) => {
+    console.log(req.body);
+    
+      
+    try {
+
+      const postData = await Post.findByPk(req.params.id, {
+        include: [
+        {
+          model: Comment,
+          attributes: ['body', "user_id"],
+        },
+      ]
+      
+    });
+
+    if (postData) {
+      const post = postData.get({ plain: true });
+
+      res.render('singlepost', { post });
+    } else {
+      res.status(404).end();
+    }
+
+      // const newComment = await Comment.create({
+      //   ...req.body,
+      //   user_id: req.session.user_id,
+      // });
+      // res.json(newComment);
+      //res.render('singlepost', { Comment });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+  
+  
+ 
   
 
 // Login route
