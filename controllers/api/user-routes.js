@@ -35,7 +35,8 @@ router.post('/login', async (req, res) => {
       res.status(400).json({ message: 'No user account found!' });
       return;
     }
-
+    else{
+      
     req.session.save(() => {
       req.session.user_id = user.id;
       req.session.username = user.username;
@@ -43,6 +44,7 @@ router.post('/login', async (req, res) => {
  
       res.json({ user, message: 'You are now logged in!' });
     });
+  }
   // } catch (err) {
   //   res.status(400).json({ message: 'No user account found!' });
   // }

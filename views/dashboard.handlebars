@@ -1,6 +1,15 @@
- 
-    <a href="/dashboard/newpost">➕ New Post</a>
-  
+{{!-- dashboard --}}
+{{#each posts as |post|}}
+    <div class="card entry-card col-10">
+        <div class="card-body">
+             <a href='post/{{post.id}}'>{{post.title}}</a>
+          
+             <h5 class="card-subtitle mb-2 text-muted">Posted by {{post.user.username}}</h5>        
+        </div>
+    </div>
+{{/each}}
+
+<a type="button" href="/dashboard/newpost">➕ New Post</a>
 
 
 

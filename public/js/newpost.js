@@ -17,11 +17,11 @@ console.log({
         headers: {'Content-Type':'application/json'},
     });
 
-    // if(response.ok) {
-    //     document.location.replace('/dashboard');
-    // } else {
-    //     alert('Failed to login');
-    // }
+    if(response.ok) {
+       window.location.href='/dashboard';
+    } else {
+        alert('Failed to login');
+    }
 };
 
 document

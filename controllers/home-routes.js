@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
+//const withAuth = require('../../utils/auth');
 
 // GET all Post for homepage
 router.get('/', async (req, res) => {
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
 
     const posts = postData.map((post) => post.get({ plain: true })
     );
-    res.render('allpostsdashboard', {
+    res.render('allposts', {
       posts,
     });
   } catch (err) {
@@ -49,7 +50,7 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-// get single post
+//get edit for update and delete
 router.get('/post/:id', async (req, res) => {
     try {
       const postData = await Post.findByPk(req.params.id, {
@@ -68,7 +69,7 @@ router.get('/post/:id', async (req, res) => {
       if (postData) {
         const post = postData.get({ plain: true });
   
-        res.render('singlepost', { post });
+        res.render('editpost', { post });
       } else {
         res.status(404).end();
       }
@@ -77,7 +78,24 @@ router.get('/post/:id', async (req, res) => {
     }
   });
 
-
+  router.put('/post/:id',  async (req, res) => {
+    try {
+      const [affectedRows] = await Post.update(req.body, {
+        where: {
+          id: req.params.id,
+        },
+      });
+  
+      if (affectedRows > 0) {
+        res.status(200).end();
+      } else {
+        res.status(404).end();
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  });
+  
 
 // Login route
 router.get('/login', (req, res) => {

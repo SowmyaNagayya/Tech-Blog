@@ -1,52 +1,29 @@
-<div class="post">
-  <article class="card">
-    <div class="card-header flex-row justify-space-between">
-      <h2>{{post.title}}</h2>
-      <div>
-        Posted by {{post.User.username}}
-      </div>
-    </div>
+<div class="card entry-card col-10">
     <div class="card-body">
-      {{post.content}}
+        <h5 id="post-id" class="hidden-id">{{id}}</h5>
+        <h5 class="card-title post-card-title">{{title}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Posted by {{user.username}}</h6>
+        <p class="card-text">{{content}}</p>
     </div>
-  </article>
+</div>    
 
-  {{#if post.Comments}}
-    <section class="card">
-      <div class="card-header">
-        <h3>Comments</h3>
-      </div>
-
-      <div class="card-body">
-        {{#each post.Comments}}
-          <div>
-            <p>
-              {{body}}
-            </p>
-            <p>
-              &mdash; {{User.username}}
-            </p>
-          </div>
-        {{/each}}
-      </div>
-    </section>
-  {{/if}}
-
-  <form id="new-comment-form" class="card">
-    <div class="card-header">
-      <h3>Add New Comment</h3>
-    </div>
-
+{{#each comments as |comment|}}
+<div class="card entry-card col-10">
     <div class="card-body">
-      <input type="hidden" name="post-id" value="{{post.id}}" />
-
-      <label class="form-label" for="comment-body">Comment</label>
-
-      <textarea name="comment-body" class="form-input"></textarea>
-
-      <button type="submit" class="btn">Submit</button>
+        <h6 class="card-subtitle mb-2 text-muted">Comment by {{comment.user.username}}</h6>
+        <p class="card-text">{{comment.body}}</p>
     </div>
-  </form>
-</div>
+</div>     
+{{/each}}       
+
+<form class= "col-10 comment-submit-form">
+    <div class="form-group">
+        <label for="formGroupExampleInput2">Add A Comment</label>
+        <input type="text" class="form-control" id="new-comment-text" placeholder="Type comment Here">
+    </div>
+    <div>
+        <button id="comment-submit-button" type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
 
 <script src="/js/comment.js"></script>
