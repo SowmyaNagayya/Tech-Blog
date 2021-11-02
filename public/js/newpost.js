@@ -1,4 +1,3 @@
- 
 const newpostFormHandler = async function(event) {
     event.preventDefault();
   

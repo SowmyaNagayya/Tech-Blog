@@ -1,44 +1,27 @@
-const commentFormHandler = async function(event) {
+const newCommentHandler = async (event) => {
+  event.preventDefault();
 
-    alert("comments");
-    event.preventDefault();
-  
-    const postId = document.querySelector('input[name="post-id"]').value;
-    const body = document.querySelector('textarea[name="comment-body"]').value;
-  
-    if (body) {
+  const comment_text = document.querySelector('#new-body').value.trim();
+  const post_id = document.querySelector('#post-id').textContent;
 
-        await fetch(`/api/comment/${postId}`, {
-            method: 'POST',
-            data: `${postId}`,
-            body: JSON.stringify({
-                postId,
-                body
-            }),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-        
-          document.location.replace('/');
-        };
-    //   await fetch(`/api/comment/${postId}`, {
-    //     method: 'POST',
-    //     //data: `${postId}`,
-    //     body: JSON.stringify({
-    //       postId,
-    //       body
-    //     }),
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   });
-  
-    //   document.location.reload();
-   // }
-  };
-  
-  document
-    .querySelector('#new-comment-form')
-    .addEventListener('submit', commentFormHandler);
-  
+  if (body) {
+    const response = await fetch(`/api/comments`, {
+      method: 'POST',
+      body: JSON.stringify({ comment_text, post_id }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      document.location.replace(`/posts/${post_id}`);
+    } else {
+      alert('Failed to create comment');
+    }
+  }
+};
+
+
+document
+  .querySelector('.comment-submit-form')
+  .addEventListener('submit', newCommentHandler);

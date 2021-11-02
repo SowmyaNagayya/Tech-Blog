@@ -18,6 +18,7 @@ router.get('/', async (req, res) => {
     );
     res.render('allposts', {
       posts,
+      loggedIn:req.session.loggedIn
     });
   } catch (err) {
     console.log(err);
@@ -69,7 +70,7 @@ router.get('/post/:id', async (req, res) => {
       if (postData) {
         const post = postData.get({ plain: true });
   
-        res.render('editpost', { post });
+        res.render('editpost', { post, loggedIn:req.session.loggedIn });
       } else {
         res.status(404).end();
       }
@@ -97,7 +98,7 @@ router.get('/post/:id', async (req, res) => {
   });
 
   //Comments
-  router.get('/comment/:id',  async (req, res) => {
+  router.get('/comments/:id',  async (req, res) => {
     console.log(req.body);
     
       
@@ -105,18 +106,22 @@ router.get('/post/:id', async (req, res) => {
 
       const postData = await Post.findByPk(req.params.id, {
         include: [
-        {
-          model: Comment,
-          attributes: ['body', "user_id"],
-        },
-      ]
-      
-    });
+          {
+            model: User,
+            attributes: ['username'],
+          },
+          {
+            model: Comment,
+            attributes: ['body'],
+            include: [User],
+          },
+        ],
+      });
 
     if (postData) {
       const post = postData.get({ plain: true });
 
-      res.render('singlepost', { post });
+      res.render('singlepost', { post, loggedIn:req.session.loggedIn });
     } else {
       res.status(404).end();
     }
