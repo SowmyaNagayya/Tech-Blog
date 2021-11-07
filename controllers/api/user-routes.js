@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+//when click on login from nav bar
 router.post('/', async (req, res) => {
-  // try {
+  try {
     const newUser = await User.create(req.body);
      
     req.session.save(() => {
@@ -11,13 +12,14 @@ router.post('/', async (req, res) => {
 
       res.status(200).json(newUser);
     });
-  // } catch (err) {
-  //   res.status(500).json(err);
-  // }
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
+//when click on login is trying to get data from database(checking from database)
 router.post('/login', async (req, res) => {
-  // try {
+  try {
     const user = await User.findOne({
       where: {
         username: req.body.username,
@@ -45,11 +47,12 @@ router.post('/login', async (req, res) => {
       res.json({ user, message: 'You are now logged in!' });
     });
   }
-  // } catch (err) {
-  //   res.status(400).json({ message: 'No user account found!' });
-  // }
+  } catch (err) {
+    res.status(400).json({ message: 'No user account found!' });
+  }
 });
 
+//existing user logout
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {

@@ -1,9 +1,10 @@
 <div class="post">
   <article class="card">
     <div class="card-header flex-row justify-space-between">
+      <h5 id="post-id" class="hidden-id">{{id}}</h5>
       <h2>{{post.title}}</h2>
       <div>
-        Posted by {{post.User.username}}
+         Posted by {{post.User.username}} 
       </div>
     </div>
     <div class="card-body">
@@ -11,42 +12,44 @@
     </div>
   </article>
 
-  {{#if post.Comments}}
+{{#each comments as |comment|}}
+<div class="card entry-card col-10">
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">Comment by {{comment.user.username}}</h6>
+        <p class="card-text">{{comment.body}}</p>
+    </div>
+</div>     
+ {{/each}}         
+
+  {{!-- {{#if post.Comments}}
     <section class="card">
       <div class="card-header">
         <h3>Comments</h3>
       </div>
 
       <div class="card-body">
-        {{#each post.Comments}}
+         {{!-- {{#each post.Comments}}  
           <div>
             <p>
-              {{body}}
+               {{!-- {{body}}  
             </p>
             <p>
-              &mdash; {{User.username}}
+               {{!-- &mdash; {{User.username}}  
             </p>
           </div>
-        {{/each}}
+        {{!-- {{/each}} 
       </div>
     </section>
-  {{/if}}
+   {{!-- {{/if}}  --}} 
 
-  <form id="new-comment-form" class="card">
-    <div class="card-header">
-      <h3>Add New Comment</h3>
+  <form class= "col-10 comment-submit-form">
+    <div class="form-group">
+        <label for="formGroupExampleInput2">Add A Comment</label>
+        <input type="text" class="form-control" id="new-body" placeholder="Type comment Here">
     </div>
-
-    <div class="card-body">
-      <input type="hidden" name="post-id" value="{{post.id}}" />
-
-      <label class="form-label" for="comment-body">Comment</label>
-
-      <textarea name="comment-body" class="form-input"></textarea>
-
-      <button type="submit" class="btn">Submit</button>
+    <div>
+        <button id="comment-submit-button" type="submit" class="btn btn-primary">Submit</button>
     </div>
-  </form>
-</div>
+</form>
 
 <script src="/js/comment.js"></script>

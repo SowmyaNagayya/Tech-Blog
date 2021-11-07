@@ -2,32 +2,38 @@ const router = require('express').Router();
 const { Post } = require('../models/');
 const withAuth = require('../utils/auth');
 
+//once user loggedin display all posts and display add newpost
 router.get('/', withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
       where: {
         user_id: req.session.user_id,
       },
+    //   include: [
+    //     {
+    //         model: User,
+    //         attributes: ["username"],
+    //     },
+    // ],
     });
 
     const posts = postData.map((post) => post.get({ plain: true }));
 
     res.render('dashboard', {
       posts,
+      loggedIn:req.session.logged_in
     });
   } catch (err) {
     res.redirect('login');
   }
 });
 
+//when user click on newpost it goes to newpost creation
 router.get('/newpost', withAuth, (req, res) => {
-  res.render('newpost', {
-  
-  });
+  res.render('newpost',{loggedIn:req.session.logged_in});
 });
 
-//edit in dashboard
-// get 
+//display single post in dashboard
 router.get('/post/:id', async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id, {
@@ -36,10 +42,10 @@ router.get('/post/:id', async (req, res) => {
           model: User,
           attributes: ['username'],
         },
-        {
-          model: Comment,
-          attributes: ['body', "user_id"],
-        },
+        // {
+        //   model: Post,
+        //   attributes: ['content', "user_id"],
+        // },
       ],
     });
 

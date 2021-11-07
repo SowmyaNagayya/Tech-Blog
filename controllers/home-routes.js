@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { Post, User, Comment } = require('../models');
 //const withAuth = require('../../utils/auth');
 
-// GET all Post for homepage
+// GET all Post for homepage for different existing user
 router.get('/', async (req, res) => {
   try {
     const postData = await Post.findAll({
@@ -18,7 +18,7 @@ router.get('/', async (req, res) => {
     );
     res.render('allposts', {
       posts,
-      loggedIn:req.session.loggedIn
+      loggedIn:req.session.logged_in
     });
   } catch (err) {
     console.log(err);
@@ -51,7 +51,7 @@ router.get('/signup', (req, res) => {
   res.render('signup');
 });
 
-//get edit for update and delete
+//get edit for update and delete//check
 router.get('/post/:id', async (req, res) => {
     try {
       const postData = await Post.findByPk(req.params.id, {
@@ -60,17 +60,17 @@ router.get('/post/:id', async (req, res) => {
             model: User,
             attributes: ['username'],
           },
-          {
-            model: Comment,
-            attributes: ['body', "user_id"],
-          },
+          // {
+          //   model: Comment,
+          //   attributes: ['body', "user_id"],
+          // },
         ],
       });
   
       if (postData) {
         const post = postData.get({ plain: true });
   
-        res.render('editpost', { post, loggedIn:req.session.loggedIn });
+        res.render('editpost', { post, loggedIn:req.session.logged_in });
       } else {
         res.status(404).end();
       }
@@ -79,6 +79,7 @@ router.get('/post/:id', async (req, res) => {
     }
   });
 
+//when you click on upadate it should post in home
   router.put('/post/:id',  async (req, res) => {
     try {
       const [affectedRows] = await Post.update(req.body, {
@@ -121,7 +122,7 @@ router.get('/post/:id', async (req, res) => {
     if (postData) {
       const post = postData.get({ plain: true });
 
-      res.render('singlepost', { post, loggedIn:req.session.loggedIn });
+      res.render('singlepost', { post, loggedIn:req.session.logged_in });
     } else {
       res.status(404).end();
     }
