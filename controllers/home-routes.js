@@ -99,7 +99,7 @@ router.get('/post/:id', async (req, res) => {
   });
 
   //Comments
-  router.get('/comments/:id',  async (req, res) => {
+  router.get('/comment/:id',  async (req, res) => {
     console.log(req.body);
     
       
@@ -111,11 +111,11 @@ router.get('/post/:id', async (req, res) => {
             model: User,
             attributes: ['username'],
           },
-          {
-            model: Comment,
-            attributes: ['body'],
-            include: [User],
-          },
+          // {
+          //   model: Comment,
+          //   attributes: ['body'],
+          //   include: [User],
+          // },
         ],
       });
 
