@@ -4,15 +4,16 @@ const { Comment, User } = require('../../models/');
 
 // Adds new comment to database
 router.post('/',  async (req, res) => {
-  try {
+  // try {
+    console.log(req.body)
     const newComment = await Comment.create({
       ...req.body,
-      userId: req.session.userId,
+      user_id: req.session.user_id,
     });
     res.json(newComment);
-  } catch (err) {
-    res.status(500).json(err);
-  }
+  // } catch (err) {
+  //   res.status(500).json(err);
+  // }
 });
 
 module.exports = router;

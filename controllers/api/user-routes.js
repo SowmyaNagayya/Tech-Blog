@@ -19,7 +19,8 @@ router.post('/', async (req, res) => {
 
 //when click on login is trying to get data from database(checking from database)
 router.post('/login', async (req, res) => {
-  try {
+  console.log(req.body)
+  // try {
     const user = await User.findOne({
       where: {
         username: req.body.username,
@@ -47,9 +48,9 @@ router.post('/login', async (req, res) => {
       res.json({ user, message: 'You are now logged in!' });
     });
   }
-  } catch (err) {
-    res.status(400).json({ message: 'No user account found!' });
-  }
+  // } catch (err) {
+  //   res.status(400).json({ message: 'No user account found!' });
+  // }
 });
 
 //existing user logout

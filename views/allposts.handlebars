@@ -3,8 +3,10 @@
         <div class="card-body">
              <h5 class="card-title post-card-title"><a href="comment/{{post.id}}">{{post.title}}</a></h5>
              <p class="card-text">{{post.content}}</p>
-             <h6 class="card-subtitle mb-2 text-muted">Posted by {{post.user.username}}</h56>        
+             {{#each comments}}
+             <p>{{body}}</p>
+             {{/each}}
+             <h6 class="card-subtitle mb-2 text-muted">Posted by {{post.user.username}} on {{format_date post.createdAt}}</h56>        
         </div>
     </div>
 {{/each}}
-<script src="/js/comment.js"></script>

@@ -1,13 +1,13 @@
 const newCommentHandler = async (event) => {
   event.preventDefault();
 
-  const comment_text = document.querySelector('#new-body').value.trim();
-  const post_id = document.querySelector('#post-id').textContent;
-
+  const body = document.querySelector('#new-body').value.trim();
+  const post_id =  location.pathname.split("/")[2];
+console.log(post_id)
   
-    const response = await fetch(`/api/comment/${post_id}`, {
+    const response = await fetch(`/api/comment/`, {
       method: 'POST',
-      body: JSON.stringify({ comment_text, post_id }),
+      body: JSON.stringify({ body, post_id }),
       headers: {
         'Content-Type': 'application/json',
       },

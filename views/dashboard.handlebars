@@ -4,10 +4,9 @@
         <div class="card-body">
              <a href='post/{{post.id}}'>{{post.title}}</a>
              <p class="card-text">{{post.content}}</p>
-             <h5 class="card-subtitle mb-2 text-muted">Posted by {{post.user.username}}</h5>        
+             <h5 class="card-subtitle mb-2 text-muted">Posted by {{post.user.username}} on {{format_date post.createdAt}}</h5>        
         </div>
     </div>
 {{/each}}
 
 <a type="button" href="/dashboard/newpost">➕ New Post</a>
-<script src="/js/newpost.js"></script>

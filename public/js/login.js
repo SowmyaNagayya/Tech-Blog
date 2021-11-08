@@ -12,7 +12,7 @@ const loginFormHandler = async function(event) {
     }),
     headers: { 'Content-Type': 'application/json' },
   });
-
+   alert(response.ok)
   if (response.ok) {
    window.location.href='/dashboard';
   } else {

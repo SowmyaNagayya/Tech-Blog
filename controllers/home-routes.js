@@ -11,14 +11,19 @@ router.get('/', async (req, res) => {
           model: User,
           attributes: ["username"],
         },
+        {
+          model: Comment
+        }
       ],
     });
 
     const posts = postData.map((post) => post.get({ plain: true })
     );
+
+    console.log(posts)
     res.render('allposts', {
       posts,
-      loggedIn:req.session.logged_in
+      loggedIn:req.session.loggedIn
     });
   } catch (err) {
     console.log(err);
@@ -32,24 +37,28 @@ router.get('/', async (req, res) => {
 
 
 router.get('/login', (req, res) => {
-  if (req.session.loggedIn) {
-    res.redirect('/');
-    return;
-  }
+  // if (req.session.loggedIn) {
+  //   res.redirect('/');
+  //   return;
+  // }
 
-  res.render('login');
+  try {
+    res.render('login');
+} catch (err) {
+    res.status(500).json(err);
+};
 });
 
 
 //Get signup Routes
 router.get('/signup', (req, res) => {
-  if (req.session.loggedIn) {
-    res.redirect('/');
-    return;
-  }
-
-  res.render('signup');
+  try {
+    res.render('signup', { loggedIn: req.session.loggedIn });
+} catch (err) {
+    res.status(500).json(err);
+};
 });
+
 
 //get edit for update and delete//check
 router.get('/post/:id', async (req, res) => {
@@ -70,7 +79,7 @@ router.get('/post/:id', async (req, res) => {
       if (postData) {
         const post = postData.get({ plain: true });
   
-        res.render('editpost', { post, loggedIn:req.session.logged_in });
+        res.render('editpost', { post, loggedIn:req.session.loggedIn });
       } else {
         res.status(404).end();
       }
@@ -122,7 +131,7 @@ router.get('/post/:id', async (req, res) => {
     if (postData) {
       const post = postData.get({ plain: true });
 
-      res.render('singlepost', { post, loggedIn:req.session.logged_in });
+      res.render('singlepost', { post, loggedIn:req.session.loggedIn });
     } else {
       res.status(404).end();
     }
@@ -143,12 +152,12 @@ router.get('/post/:id', async (req, res) => {
   
 
 // Login route
-router.get('/login', (req, res) => {
-  if (req.session.loggedIn) {
-    res.redirect('/');
-    return;
-  }
-  res.render('login');
-});
+// router.get('/login', (req, res) => {
+//   if (req.session.loggedIn) {
+//     res.redirect('/');
+//     return;
+//   }
+//   res.render('login');
+// });
 
 module.exports = router;
