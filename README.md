@@ -64,9 +64,9 @@ The application should now be ready for use.
 
 ![Here is a screen shot of the final page/homepage.](./public/images/techblog.png)
 
-## Link to Demo
+## Link to deployed page
 
-https://drive.google.com/file/d/1Sk9D11yh0K6Jq3CyX5eGXZ46WqjpCGW8/view?usp=sharing
+You can also refer to this [Heroku](https://sowmyatech-blog.herokuapp.com/).
 
 ## Questions
 
