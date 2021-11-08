@@ -1,16 +1,16 @@
 const router = require('express').Router();
-const { User,Post } = require('../models/');
+const { User, Post } = require('../models/');
 const withAuth = require('../utils/auth');
 
 //once user loggedin display all posts and display add newpost
 router.get('/', withAuth, async (req, res) => {
   try {
     const postData = await Post.findAll({
-     
+
       include: [
         {
-            model: User,
-            attributes: ["username"],
+          model: User,
+          attributes: ["username"],
         },
       ],
       where: {
@@ -22,7 +22,7 @@ router.get('/', withAuth, async (req, res) => {
 
     res.render('dashboard', {
       posts,
-       loggedIn:req.session.loggedIn
+      loggedIn: req.session.loggedIn
     });
   } catch (err) {
     res.redirect('login');
@@ -31,7 +31,7 @@ router.get('/', withAuth, async (req, res) => {
 
 //when user click on newpost it goes to newpost creation
 router.get('/newpost', withAuth, (req, res) => {
-  res.render('newpost',{loggedIn:req.session.loggedIn});
+  res.render('newpost', { loggedIn: req.session.loggedIn });
 });
 
 //display single post in dashboard
@@ -43,10 +43,6 @@ router.get('/post/:id', async (req, res) => {
           model: User,
           attributes: ['username'],
         },
-        // {
-        //   model: Post,
-        //   attributes: ['content', "user_id"],
-        // },
       ],
     });
 
@@ -64,13 +60,13 @@ router.get('/post/:id', async (req, res) => {
 
 // Updates an entry by id
 router.put('/:id', withAuth, (req, res) => {
-  Post.update (req.body, {
+  Post.update(req.body, {
     where: {
       id: req.params.id
     }
   })
-  .then(updatedPost => res.json(updatedPost))
-  .catch(err => res.status(400).json(err));
+    .then(updatedPost => res.json(updatedPost))
+    .catch(err => res.status(400).json(err));
 });
 
 
