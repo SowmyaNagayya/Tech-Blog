@@ -17,7 +17,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-//when click on login is trying to get data from database(checking from database)
+//when click on login button is trying to get data from database(checking from database)
 router.post('/login', async (req, res) => {
   console.log(req.body)
   // try {
