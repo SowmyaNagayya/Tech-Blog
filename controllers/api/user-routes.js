@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const User = require('../../models/User');
+const { User } = require('../../models/');
 
 //when click on login from nav bar
 router.post('/', async (req, res) => {
